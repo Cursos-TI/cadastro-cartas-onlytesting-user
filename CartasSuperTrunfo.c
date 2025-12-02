@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <string.h>
 
 // Desafio Super Trunfo - Países
-// Tema 1 - Cadastro das cartas
-// Objetivo: No nível novato você deve criar as cartas representando as cidades utilizando scanf para entrada de dados e printf para exibir as informações.
+// Tema 2 - Calculando Densidade Populacional e PIB per Capita
+// Objetivo: No nível aventureiro você deve implementar a lógica para calcular e exibir duas novas propriedades importantes para cada cidade: a densidade populacional e o PIB per capita.
 
 // Declaração da função para criação de Cartas
 void adicionar_carta(
@@ -22,10 +23,14 @@ void adicionar_carta(
   scanf(" %c", estado);
 
   printf("Código Carta (estado + 01 - 04): ");
-  scanf("%s", codigo_carta);
+  scanf("%3s", codigo_carta);
+
+  // Para limpar o buffer
+  scanf("%*c");
 
   printf("Nome Cidade: ");
-  scanf("%s", nome_cidade);
+  fgets(nome_cidade, 100, stdin);
+  nome_cidade[strcspn(nome_cidade, "\n")] = 0;
 
   printf("População: ");
   scanf("%d", populacao);
@@ -35,9 +40,14 @@ void adicionar_carta(
 
   printf("PIB: ");
   scanf("%f", pib);
+  *pib = *pib * 1e9;
 
   printf("Número de Pontos Turísticos: ");
   scanf("%d", num_pontos_turisticos);
+
+  // Cálculo de Densidade populacional e PIB per Capita
+  float densidade_populacional = *populacao / *area;
+  float pib_per_capita = *pib / *populacao;
 
   // Exibição da Carta com todos os seus dados preenchidos
   printf("\nCarta %d:\n", num_carta);
@@ -46,8 +56,10 @@ void adicionar_carta(
   printf("Nome da Cidade: %s\n", nome_cidade);
   printf("População: %d\n", *populacao);
   printf("Área: %.2f km^2\n", *area);
-  printf("PIB: %.2f bilhões de reais\n", *pib);
+  printf("PIB: %.2f bilhões de reais\n", *pib / 1e9);
   printf("Número de Pontos Turísticos: %d\n", *num_pontos_turisticos);
+  printf("Densidade Populacional: %.2f hab/km^2\n", densidade_populacional);
+  printf("PIB per Capita: %.2f reais\n", pib_per_capita);
 }
 
 // Função Principal - Para declaração e chamada de Cartas de forma centralizada
